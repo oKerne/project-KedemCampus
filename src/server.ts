@@ -11,6 +11,12 @@ const indexHtml = join(serverDistFolder, 'index.server.html');
 
 const app = express();
 const commonEngine = new CommonEngine();
+app.use(express.json());
+import cors from 'cors';
+app.use(cors());
+
+// app.use('/api/auth', require('./routes/authRoutes'));
+
 
 /**
  * Example Express Rest API endpoints can be defined here.
