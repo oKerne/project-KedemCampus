@@ -1,0 +1,31 @@
+<header class="header-container">
+
+    <div class="main-nav">
+      <img width="50" height="50" src="images/campuslogo.png" class="logo" />
+  
+      <div class="nav-links">
+        <ul>
+          <li><a routerLink="/courses"><i class="fas fa-graduation-cap"></i> קורסים </a></li>
+          <li><a routerLink="/study-groups"><i class="fas fa-users"></i> קבוצות למידה </a></li>
+          <li *ngIf="userRole() === 'teacher'"><a routerLink="/campus-learning"><i class="fas fa-chalkboard-teacher"></i> כל המרצות </a></li>
+        <li> <a routerLink="/lessons"><i class="fas fa-book"></i> ללמד בקמפוס </a></li>
+        </ul>
+      </div>
+
+ <div class="register-links" *ngIf="!isLoggedIn()">
+  <a routerLink="/login" class="login-link">התחברות</a>
+  <a routerLink="/register" class="register-button">הרשמה</a>
+</div>
+
+<!-- avatar -->
+<div class="avatar-container" *ngIf="isLoggedIn()">
+  <div class="avatar">{{ avatarInitial() }}</div>
+  <span class="user-name">{{ username() }}</span>
+  <button class="logout-button" (click)="logout()">התנתקות</button>
+</div>
+
+    </div>
+  </header>
+  
+
+

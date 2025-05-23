@@ -1,0 +1,49 @@
+[33mcommit 3278d6cd113641a063006b05ae931be91b1b54bc[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mlesson[m[33m, [m[1;32mtry-using-copilot[m[33m, [m[1;32mmaster[m[33m, [m[1;32mbranch-name[m[33m)[m
+Author: oKerne <o054841576@gmail.com>
+Date:   Sun May 4 19:16:40 2025 +0300
+
+    first app
+
+[1mdiff --git a/src/app/services/auth.service.ts b/src/app/services/auth.service.ts[m
+[1mnew file mode 100644[m
+[1mindex 0000000..41716e9[m
+[1m--- /dev/null[m
+[1m+++ b/src/app/services/auth.service.ts[m
+[36m@@ -0,0 +1,37 @@[m
+[32m+[m[32mimport { Injectable } from '@angular/core';[m
+[32m+[m[32mimport { HttpClient } from '@angular/common/http';[m
+[32m+[m[32mimport { Observable, tap } from 'rxjs';[m
+[32m+[m
+[32m+[m[32m@Injectable({ providedIn: 'root' })[m
+[32m+[m[32mexport class AuthService {[m
+[32m+[m[32m  private apiUrl = 'http://localhost:3000/api/auth';[m
+[32m+[m
+[32m+[m[32m  constructor(private http: HttpClient) {}[m
+[32m+[m
+[32m+[m[32m  register(userData: {[m
+[32m+[m[32m    name: string;[m
+[32m+[m[32m    email: string;[m
+[32m+[m[32m    password: string;[m
+[32m+[m[32m    role: string;[m
+[32m+[m[32m  }): Observable<any> {[m
+[32m+[m[32m    return this.http.post(`${this.apiUrl}/register`, userData);[m
+[32m+[m[32m  }[m
+[32m+[m
+[32m+[m[32m  login(credentials: { email: string; password: string }): Observable<any> {[m
+[32m+[m[32m    return this.http.post(`${this.apiUrl}/login`, credentials).pipe([m
+[32m+[m[32m      tap((response: any) => {[m
+[32m+[m[32m        if (response && response.token) {[m
+[32m+[m[32m          localStorage.setItem('authToken', response.token);[m
+[32m+[m[32m        }[m
+[32m+[m[32m      })[m
+[32m+[m[32m    );[m
+[32m+[m[32m  }[m
+[32m+[m
+[32m+[m[32m  logout(): void {[m
+[32m+[m[32m    localStorage.removeItem('authToken');[m
+[32m+[m[32m  }[m
+[32m+[m
+[32m+[m[32m  getToken(): string | null {[m
+[32m+[m[32m    return localStorage.getItem('authToken');[m
+[32m+[m[32m  }[m
+[32m+[m[32m}[m

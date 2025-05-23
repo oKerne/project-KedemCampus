@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { HomeComponent } from './components/home/home.component';
+import { HomeComponent } from './pages/home/home.component';
 
 export const routes: Routes = [
   {
@@ -9,16 +9,33 @@ export const routes: Routes = [
   {
     path: 'login',
     loadComponent: () =>
-      import('./components/login/login.component').then(m => m.LoginComponent)
+      import('./components/auth/login/login.component').then(m => m.LoginComponent)
   },
 {
     path: 'register',
     loadComponent: () =>
-      import('./components/register/register.component').then(m => m.RegisterComponent)
+      import('./components/auth/register/register.component').then(m => m.RegisterComponent)
 },
-{ path:'teachers',
+
+{
+  path: 'courses',
+  loadComponent: () =>
+ import('./components/courses/courses.component').then(m => m.CoursesComponent)
+}
+,
+// {
+//   path:'lessons/',
+//   loadComponent: () =>
+//     import('./components/lessons/lessons.component').then(m => m.LessonComponent)
+// },
+{ path:'campus-learning',
     loadComponent: () =>
       import('./components/teachers/teachers.component').then(m => m.TeachersComponent)
 }
+// {
+//   path: 'lessons/:courseId',
+//   loadComponent: () =>
+//     import('./components/lessons/lessons.component').then(m => m.LessonComponent)
+// }
 
 ]

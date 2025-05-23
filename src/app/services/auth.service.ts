@@ -1,37 +1,92 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable, tap } from 'rxjs';
+
+import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { User } from "../models/user.model";
+import { computed, Injectable, signal } from "@angular/core";
+import { Router } from "@angular/router";
+import { switchMap, tap } from "rxjs";
+
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
+  private currentUser = signal<User | null>(null);
+  private token = signal<string | null>(null);
+
+  private loadUserFromToken() {
+    
+    const token = this.token();
+    if (!token) return;
+    const userId = localStorage.getItem('userId');
+    if (userId) {
+      this.loadUserDetails(userId).subscribe();
+    }
+  }
+
+  isAuthenticated = computed(() => !!this.currentUser());
+  userRole = computed(() => this.currentUser()?.role.toLowerCase() || null);
+  userName = computed(() => this.currentUser()?.name || null);
+  userId = computed(() => this.currentUser()?.id || null);
+
   private apiUrl = 'http://localhost:3000/api/auth';
 
-  constructor(private http: HttpClient) {}
-
-  register(userData: {
-    name: string;
-    email: string;
-    password: string;
-    role: string;
-  }): Observable<any> {
-    return this.http.post(`${this.apiUrl}/register`, userData);
+  constructor(private http: HttpClient, private router: Router) {
+    if (typeof window !== 'undefined') {
+      const token = localStorage.getItem('token');
+      if (token) {
+        this.token.set(token);
+        this.loadUserFromToken();
+      }
+    }
   }
 
-  login(credentials: { email: string; password: string }): Observable<any> {
-    return this.http.post(`${this.apiUrl}/login`, credentials).pipe(
-      tap((response: any) => {
-        if (response && response.token) {
-          localStorage.setItem('authToken', response.token);
-        }
+  getAuthHeaders(): { headers: HttpHeaders } {
+    const token = this.token();
+    if (!token) {
+      return { headers: new HttpHeaders() };
+    }
+    return {
+      headers: new HttpHeaders({
+        Authorization: `Bearer ${token}`
+      })
+    };
+  }
+
+  login(email: string, password: string) {
+    return this.http.post<{ token: string; user: User }>(
+      `${this.apiUrl}/login`,
+      { email, password }
+    ).pipe(
+     tap(({ token, user }) => {
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('token', token);
+        localStorage.setItem('userId', user.id.toString());
+      }
+      this.token.set(token);
+      this.currentUser.set(user);  // קובע ישירות את המשתמש שהתקבל
+    })
+  );
+}
+
+loadUserDetails(userId: string) {
+  return this.http.get<User>(`http://localhost:3000/api/users/${userId}`, this.getAuthHeaders())
+    .pipe(
+      tap(user => {
+        this.currentUser.set(user);
       })
     );
+}
+
+
+  logout() {
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem('token');
+      localStorage.removeItem('userId');
+    }
+    this.token.set(null);
+    this.currentUser.set(null);
+    this.router.navigate(['/login']);
   }
 
-  logout(): void {
-    localStorage.removeItem('authToken');
-  }
-
-  getToken(): string | null {
-    return localStorage.getItem('authToken');
+  getToken() {
+    return this.token();
   }
 }

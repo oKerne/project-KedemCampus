@@ -16,18 +16,26 @@ export class UserService {
   return this.http.post(url, credentials);
 }
 
-  registerUser(userData: any): Observable<any> {
-    return this.http.post('http://localhost:3000/api/auth/register',  userData);
-  }
-  
+ registerUser(userData: { name: string; email: string; password: string; role: string }): Observable<any> {
+  return this.http.post(this.apiUrl, userData);
+}
+
   private getHeaders(): HttpHeaders {
     const token = localStorage.getItem('token');
     return new HttpHeaders({ Authorization: `Bearer ${token}` });
   }
 
-  getUser(id: number): Observable<any> {
-    return this.http.get(`${this.apiUrl}/${id}`, { headers: this.getHeaders() });
+  // getUser(id: number): Observable<any> {
+  //   return this.http.get(`${this.apiUrl}/${id}`, { headers: this.getHeaders() });
+  // }
+ getUser(id: number): Observable<any> {
+  if (id) {
+    return this.http.get(`${this.apiUrl}/users/${id}`);
+  } else {
+   
+    return this.http.get(`${this.apiUrl}/current-user`);
   }
+}
 
   updateUser(id: number, data: any): Observable<any> {
     return this.http.put(`${this.apiUrl}/${id}`, data, { headers: this.getHeaders() });
