@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { HomeComponent } from './pages/home/home.component';
+import { LessonsComponent } from './components/lessons/lessons.component';
 
 export const routes: Routes = [
   {
@@ -23,6 +24,7 @@ export const routes: Routes = [
  import('./components/courses/courses.component').then(m => m.CoursesComponent)
 }
 ,
+{ path: 'course/:id', component: LessonsComponent },
 // {
 //   path:'lessons/',
 //   loadComponent: () =>

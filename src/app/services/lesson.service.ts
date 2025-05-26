@@ -46,27 +46,27 @@ import { Injectable } from "@angular/core";
   providedIn: 'root'
 })
 export class LessonService {
-  private baseUrl = 'http://localhost:3000/api/course';
+  private apiUrl = 'http://localhost:3000/api/courses';
 
   constructor(private http: HttpClient) {}
 
   getLessons(courseId: number): Observable<Lesson[]> {
-    return this.http.get<Lesson[]>(`${this.baseUrl}/${courseId}/lessons`)
+    return this.http.get<Lesson[]>(`${this.apiUrl}/${courseId}/lessons`)
       .pipe(catchError(this.handleError));
   }
 
   addLesson(courseId: number, lesson: Lesson): Observable<Lesson> {
-    return this.http.post<Lesson>(`${this.baseUrl}/${courseId}/lessons`, lesson)
+    return this.http.post<Lesson>(`${this.apiUrl}/${courseId}/lessons`, lesson)
       .pipe(catchError(this.handleError));
   }
 
   updateLesson(courseId: number, lessonId: number, lesson: Lesson): Observable<Lesson> {
-    return this.http.put<Lesson>(`${this.baseUrl}/${courseId}/lessons/${lessonId}`, lesson)
+    return this.http.put<Lesson>(`${this.apiUrl}/${courseId}/lessons/${lessonId}`, lesson)
       .pipe(catchError(this.handleError));
   }
 
   deleteLesson(courseId: number, lessonId: number): Observable<void> {
-    return this.http.delete<void>(`${this.baseUrl}/${courseId}/lessons/${lessonId}`)
+    return this.http.delete<void>(`${this.apiUrl}/${courseId}/lessons/${lessonId}`)
       .pipe(catchError(this.handleError));
   }
 

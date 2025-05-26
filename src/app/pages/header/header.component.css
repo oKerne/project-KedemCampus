@@ -131,7 +131,7 @@
     width: 36px;
     height: 36px;
     border-radius: 50%;
-    background-color: #82e5e5;
+    background-color: #05dbd1;
     color: white;
     display: flex;
     justify-content: center;
@@ -146,7 +146,7 @@
   background-color: #5e35b1;
 }
 .avatar.student {
-  background-color: #00796b;
+  background-color: #028071;
 }
   .user-name {
     font-weight: 500;
