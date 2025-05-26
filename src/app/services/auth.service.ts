@@ -49,22 +49,44 @@ export class AuthService {
       })
     };
   }
-
-  login(email: string, password: string) {
-    return this.http.post<{ token: string; user: User }>(
-      `${this.apiUrl}/login`,
-      { email, password }
-    ).pipe(
-     tap(({ token, user }) => {
+login(email: string, password: string) {
+  return this.http.post<{ token: string; userId: string; role: string }>(
+    `${this.apiUrl}/login`,
+    { email, password }
+  ).pipe(
+    tap(({ token, userId, role }) => {
       if (typeof window !== 'undefined') {
         localStorage.setItem('token', token);
-        localStorage.setItem('userId', user.id.toString());
+        localStorage.setItem('userId', userId);
+        // localStorage.setItem('userRole', role);
       }
       this.token.set(token);
-      this.currentUser.set(user);  // קובע ישירות את המשתמש שהתקבל
+
+      // נטען את פרטי המשתמש לפי userId
+      this.loadUserDetails(userId).subscribe();
     })
   );
 }
+
+//   login(email: string, password: string) {
+//     return this.http.post<{ token: string; user: User }>(
+//       `${this.apiUrl}/login`,
+//       { email, password }
+//     ).pipe(
+//      tap(({ token, user }) => {
+//       if (typeof window !== 'undefined') {
+//         localStorage.setItem('token', token);
+//         localStorage.setItem('userId', user.id.toString());
+//          localStorage.setItem('userName', user.name);
+//         //  localStorage.setItem('userRole', 'teacher');
+
+//         localStorage.setItem('userInitial', user.name.charAt(0).toUpperCase());
+//       }
+//       this.token.set(token);
+//       this.currentUser.set(user);  // קובע ישירות את המשתמש שהתקבל
+//     })
+//   );
+// }
 
 loadUserDetails(userId: string) {
   return this.http.get<User>(`http://localhost:3000/api/users/${userId}`, this.getAuthHeaders())
@@ -72,7 +94,7 @@ loadUserDetails(userId: string) {
       tap(user => {
         this.currentUser.set(user);
       })
-    );
+    )
 }
 
 
@@ -89,4 +111,5 @@ loadUserDetails(userId: string) {
   getToken() {
     return this.token();
   }
+  
 }

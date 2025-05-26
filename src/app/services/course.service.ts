@@ -11,16 +11,31 @@ import { Lesson } from "../models/lesson.model";
 export class CourseService {
   private readonly apiUrl = 'http://localhost:3000/api/courses';
   constructor(private http: HttpClient, private authService: AuthService) {}
-intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-  const token = this.authService.getToken();
-  if (token) {
-    const authReq = req.clone({
-      headers: req.headers.set('Authorization', `Bearer ${token}`)
-    });
-    return next.handle(authReq);
+// intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+//   const token = this.authService.getToken();
+//   if (token) {
+//     const authReq = req.clone({
+//       headers: req.headers.set('Authorization', `Bearer ${token}`)
+//     });
+//     return next.handle(authReq);
+//   }
+//   return next.handle(req);
+//  }
+
+
+  intercept(req: HttpRequest<any>, next: HttpHandler) {
+    const token = localStorage.getItem('token');
+    if (token) {
+      const cloned = req.clone({
+        headers: req.headers.set('Authorization', `Bearer ${token}`)
+      });
+      return next.handle(cloned);
+    }
+    return next.handle(req);
   }
-  return next.handle(req);
- }
+
+
+
  private getHeaders(): HttpHeaders {
   const token = this.authService.getToken();
   if (token) {
@@ -70,7 +85,7 @@ getCoursesByUserId(userId: number): Observable<Course[]> {
       headers: this.getHeaders()
     }).pipe(catchError((error) => {
         console.error('Error enrolling in course:', error);
-        return throwError(() => new Error('Failed to enroll in course'));
+        return throwError(() => new Error(' שגיאה בהרשמה לקורס. אנא נסה שוב.'));
       }));
   }
 
@@ -82,20 +97,39 @@ getCoursesByUserId(userId: number): Observable<Course[]> {
   }
   getLessons(courseId: number): Observable<Lesson[]> {
     return this.http.get<Lesson[]>(`${this.apiUrl}/${courseId}/lessons`, { headers: this.getHeaders() })
-      .pipe(catchError(this.handleError));
+      .pipe(catchError(error => {   
+        console.error('Error during unenrollment:', error);
+        return throwError(() => new Error('שגיאה בביטול הרשמה לקורס. אנא נסה שוב.'));
+      })
+      );
   }
    // למורים בלבד
-  getCourseDetails(courseId: number): Observable<any> {
+    private getTeacherId(): number {
+    const teacherId = localStorage.getItem('userId');
+    if (!teacherId) {
+      throw new Error('Teacher ID is not found in localStorage');
+    }
+    return parseInt(teacherId, 10); 
+   }
+
+   getCourseDetails(courseId: number): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/${courseId}/lessons`, { headers: this.getHeaders() });
   }
-  getCoursesByTeacher(): Observable<Course[]> {
-    const teacherId = this.authService.userId();  
-    return this.http.get<Course[]>(`${this.apiUrl}/byTeacher/${teacherId}`);
+getCoursesByTeacher(): Observable<Course[]> {
+  const teacherId = this.authService.userId();
+  if (!teacherId) {
+    throw new Error('Teacher ID is missing');
   }
-/***/ 
-  createCourse(course: Course): Observable<Course> {
-    return this.http.post<Course>(this.apiUrl, course, { headers: this.getHeaders() });
-  }
+  return this.http.get<Course[]>(`${this.apiUrl}/byTeacher/${teacherId}`, { headers: this.getHeaders() });
+}
+
+
+createCourse(course: Course): Observable<Course> {
+  return this.http.post<Course>(this.apiUrl, course, {
+    headers: this.getHeaders()
+  }).pipe(catchError(this.handleError));
+}
+
 
   updateCourse(courseId: number, course: Omit<Course, 'teacherId'>): Observable<Course> {
   const teacherId = this.authService.userId();

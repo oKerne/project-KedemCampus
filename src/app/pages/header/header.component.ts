@@ -1,4 +1,4 @@
-import { Component, computed } from '@angular/core';
+import { Component, computed, signal } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { NgIf } from '@angular/common';
 import { AuthService } from '../../services/auth.service';
@@ -11,6 +11,7 @@ import { AuthService } from '../../services/auth.service';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent {
+  
 
 username = computed(() => this.authService.userName());
 userRole = computed(() => this.authService.userRole());
@@ -28,4 +29,6 @@ avatarInitial = computed(() => {
     this.authService.logout();
     this.router.navigate(['/']);
   }
+
+
 }
