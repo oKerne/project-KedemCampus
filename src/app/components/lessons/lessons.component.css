@@ -1,0 +1,224 @@
+/* .course-details {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding: 2rem;
+  background-color: #ffffff;
+  border-radius: 2rem;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
+  direction: rtl;
+}
+
+.image-container {
+  display: flex;
+  justify-content: center;
+}
+
+.course-image {
+  width: 100%;
+  max-width: 500px;
+  border-radius: 2rem;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  object-fit: cover;
+}
+
+.course-info {
+  text-align: right;
+}
+
+.course-title {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+  color: #1e293b;
+}
+
+.course-description {
+  font-size: 1.1rem;
+  color: #475569;
+  margin-bottom: 1rem;
+}
+
+.teacher-info {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.teacher-icon {
+  width: 24px;
+  height: 24px;
+}
+
+.teacher-name {
+  font-weight: bold;
+  color: #0f172a;
+}
+
+.lesson-count {
+  font-size: 1rem;
+  color: #334155;
+}
+
+.lessons-section {
+  background-color: #f8fafc;
+  border-radius: 1rem;
+  padding: 1.5rem;
+}
+
+.lessons-title {
+  font-size: 1.5rem;
+  color: #1e293b;
+  margin-bottom: 1rem;
+}
+
+.lessons-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1rem;
+}
+
+.lesson-card {
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 1rem;
+  padding: 1rem;
+  transition: box-shadow 0.3s ease;
+  cursor: pointer;
+}
+
+.lesson-card:hover {
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
+}
+
+.lesson-title {
+  font-size: 1.2rem;
+  color: #0f172a;
+  margin-bottom: 0.5rem;
+}
+
+.lesson-description {
+  font-size: 1rem;
+  color: #475569;
+  margin-bottom: 1rem;
+}
+
+.btn-watch {
+  padding: 0.5rem 1rem;
+  background-color: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn-watch:hover {
+  background-color: #2563eb;
+}
+
+.no-lessons {
+  color: #64748b;
+  text-align: center;
+  font-style: italic;
+} */
+.course-details-container {
+  max-width: 1000px;
+  margin: 40px auto;
+  padding: 24px;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  font-family: "Segoe UI", Tahoma, sans-serif;
+}
+
+/* מבנה עליון: תמונה + פרטים */
+.course-header {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  align-items: center;
+  margin-bottom: 32px;
+}
+
+.course-img {
+  width: 50%;
+  
+  object-fit: cover;
+  border-radius: 12px;
+  flex-shrink: 0;
+}
+
+.course-info {
+  flex: 1;
+}
+
+.course-info h2 {
+  margin-bottom: 10px;
+  font-size: 26px;
+  color: #222;
+}
+
+.course-info p {
+  margin: 4px 0;
+  color: #444;
+}
+
+.teacher-info {
+  display: flex;
+  align-items: center;
+  margin-top: 12px;
+  gap: 10px;
+}
+
+.teacher-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+}
+
+.lesson-count {
+  font-weight: bold;
+  margin-top: 8px;
+}
+
+/* אזור שיעורים */
+.lessons-section h3 {
+  margin-bottom: 16px;
+  font-size: 20px;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 8px;
+}
+
+.lesson-card {
+  background: #f8f8f8;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 16px;
+  margin-bottom: 12px;
+}
+
+.lesson-card h4 {
+  margin: 0 0 8px;
+  color: #333;
+}
+
+.no-lessons {
+  font-style: italic;
+  color: #888;
+  text-align: center;
+  margin-top: 24px;
+}
+
+/* רספונסיביות למובייל */
+@media (max-width: 600px) {
+  .course-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .course-img {
+    width: 100%;
+    height: auto;
+  }
+}

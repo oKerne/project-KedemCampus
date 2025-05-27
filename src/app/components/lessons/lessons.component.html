@@ -1,0 +1,176 @@
+<!-- Replace 'loadCourseDetails' with the correct course details object, e.g., 'courseDetails'
+<div *ngIf="courseDetails">
+  <img [src]="courseDetails.imageUrl || 'images/QA.jpg'" alt="תמונה">
+  <h2>{{ courseDetails.title }}</h2>
+  <p>{{ courseDetails.description }}</p>
+  <div class="teacher">
+    <img src="images/campuslogo.png" alt="אייקון">
+    <span>{{ courseDetails.teacherName }}</span>
+  </div>
+  <p>מספר פרקים: {{ courseDetails.lessonsCount }}</p>
+</div> -->
+<!-- <div class="course-details" *ngIf="courseId">
+  <img [src]="courseId.image" alt="Course Image" class="course-image" />
+  <div class="course-info">
+    <h2>{{ courseId.title }}</h2>
+    <p>{{ courseId.description }}</p>
+  </div>
+
+  <h3>שיעורים בקורס</h3>
+  <div class="lessons">
+    <div *ngFor="let lesson of lessons" class="lesson-card">
+      <h4>{{ lesson.title }}</h4>
+      <p>{{ lesson.description }}</p>
+    </div>
+    <div *ngIf="lessons.length ===5">אין שיעורים להצגה</div>
+  </div>
+</div>
+ -->
+
+<!-- <section class="courses-container">
+  <h2>הצטרפו לקמפוס!</h2>
+  <p>בחרו את מסלול הקורס המתאים לכם</p>
+  <div class="courses-grid">
+ 
+    <div class="course-card">
+      <img src="images/מנוי מרצה.png" alt="קורס 1">
+      <div class="course-content">
+        <div class="course-title">מנוי מרצה בקמפוס</div>
+        <div class="course-price">החל מ־0 ש"ח / לחודש</div>
+        <button class="btn-select">בחר אפשרויות</button>
+      </div>
+    </div>
+
+  
+     <div class="course-card">
+      <span class="tag-sale">מבצע</span>
+      <img src="images/מנוי זהב.png" alt="קורס 2">
+      <div class="course-content">
+        <div class="course-title">מנוי זהב + ניהול קהילה</div>
+        <div class="course-price">החל מ־220 ש"ח / לחודש</div>
+        <button class="btn-select">בחר אפשרויות</button>
+      </div>
+    </div>
+
+  
+     <div class="course-card">
+      <img src="images/מנוי.png" alt="קורס 3">
+      <div class="course-content">
+        <div class="course-title">מנוי ניהול קהילה</div>
+        <div class="course-price">החל מ־180 ש"ח / לחודש</div>
+        <button class="btn-select">בחר אפשרויות</button>
+      </div>
+    </div>
+  </div>
+</section>  
+ -->
+<!-- 
+   <h2>שיעורים בקורס {{ courseId }}</h2>
+
+  <div *ngIf="lessons.length === 0">אין שיעורים זמינים</div>
+
+<div *ngFor="let lesson of lessons" class="lesson" (click)="onLessonSelected(lesson.id)">
+  <h3>{{ lesson.title }}</h3>
+  <p>{{ lesson.content }}</p>
+</div> 
+<div class="course-details" *ngIf="selectedCourse">
+
+  <img [src]="selectedCourse.imageUrl || 'images/AI.jpg'"
+       [alt]="selectedCourse.title"
+       class="course-image" /> 
+
+
+   <div class="course-info">
+    <h2>{{ selectedCourse.title }}</h2>
+    <p>{{ selectedCourse.description }}</p>
+
+    <div class="teacher-info">
+      <img src="assets/images/campuslogo.png" alt="מורה" class="teacher-icon" />
+      <span>{{ selectedCourse.teacherName }}</span>
+    </div>
+
+    <p>מספר פרקים: {{ selectedCourse.lessons?.length || 0 }}</p>
+  </div>
+
+
+  <div class="lessons-section">
+    <h3>שיעורים בקורס</h3>
+
+    <div *ngIf="selectedCourse.lessons?.length > 0; else noLessons">
+      <div *ngFor="let lesson of selectedCourse.lessons" class="lesson-card">
+        <h4>{{ lesson.title }}</h4>
+        <p>{{ lesson.description }}</p>
+        <button (click)="onLessonSelected(lesson.id)">צפה בשיעור</button>
+      </div>
+    </div>
+
+    <ng-template #noLessons>
+      <p class="no-lessons">אין שיעורים להצגה</p>
+    </ng-template>
+  </div>
+</div>  -->
+<!-- <div *ngIf="selectedCourse as course" class="course-details">
+  <img [src]="course.imageUrl || 'assets/images/AI.jpg'" alt="תמונה" class="course-img" />
+
+  <div class="course-info">
+    <h2>{{ course.title }}</h2>
+    <p>{{ course.description }}</p>
+
+    <div class="teacher-info">
+      <img src="assets/images/campuslogo.png" alt="מורה" class="teacher-icon" />
+      <span>{{ course.teacherName || 'מרצה לא ידוע' }}</span>
+    </div>
+
+    <p>מספר פרקים: {{ course.lessons?.length || 0 }}</p>
+  </div>
+
+  <div class="lessons-section">
+    <h3>שיעורים בקורס</h3>
+
+    <ng-container *ngIf="course.lessons?.length > 0; else noLessons">
+      <div *ngFor="let lesson of course.lessons" class="lesson-card">
+        <h4>{{ lesson.title }}</h4>
+        <p>{{ lesson.description }}</p>
+      </div>
+    </ng-container>
+
+    <ng-template #noLessons>
+      <p class="no-lessons">אין שיעורים להצגה</p>
+    </ng-template>
+  </div>
+</div> -->
+<<div *ngIf="selectedCourse as course" class="course-details-container">
+
+  <!-- אזור עליון: תמונה ופרטי הקורס -->
+  <div class="course-header">
+    <img [src]="course.imageUrl || 'images/Software.jpg'" alt="תמונה" class="course-img" />
+
+    <div class="course-info">
+      <h2>{{ course.title }}</h2>
+      <p>{{ course.description }}</p>
+
+      <div class="teacher-info">
+        <img src="images/campuslogo.png" alt="מורה" class="teacher-icon" />
+        <span>{{ course.teacherName || 'טליה שוורץ' }}</span>
+      </div>
+
+      <p class="lesson-count">מספר פרקים: {{ course.lessons.length }}</p>
+    </div>
+  </div>
+
+  <!-- אזור שיעורים -->
+  <div class="lessons-section">
+    <h3>שיעורים בקורס</h3>
+
+    <ng-container *ngIf="course.lessons.length > 0; else noLessons">
+      <div *ngFor="let lesson of course.lessons" class="lesson-card">
+        <h4>{{ lesson.title }}</h4>
+        <p>{{ lesson.description }}</p>
+      </div>
+    </ng-container>
+
+    <ng-template #noLessons>
+      <p class="no-lessons">אין שיעורים להצגה</p>
+    </ng-template>
+  </div>
+</div>
