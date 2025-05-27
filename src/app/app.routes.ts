@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { HomeComponent } from './pages/home/home.component';
 import { LessonsComponent } from './components/lessons/lessons.component';
+import { TeachersComponent } from './components/teachers/teachers.component';
 
 export const routes: Routes = [
   {
@@ -24,20 +25,22 @@ export const routes: Routes = [
  import('./components/courses/courses.component').then(m => m.CoursesComponent)
 }
 ,
+
 { path: 'course/:id', component: LessonsComponent },
+{ path:  'campus-learning',  component: TeachersComponent },
 // {
 //   path:'lessons/',
 //   loadComponent: () =>
 //     import('./components/lessons/lessons.component').then(m => m.LessonComponent)
 // },
-{ path:'campus-learning',
-    loadComponent: () =>
-      import('./components/teachers/teachers.component').then(m => m.TeachersComponent)
-},
-{ path:'study-groups',
-    loadComponent: () =>
-      import('./components/lessons/lessons.component').then(m => m.LessonsComponent)  
-}
+// { path:'lessons',
+//     loadComponent: () =>
+//       import('./components/teachers/teachers.component').then(m => m.TeachersComponent)
+// },
+// { path:'study-groups',
+//     loadComponent: () =>
+//       import('./components/lessons/lessons.component').then(m => m.LessonsComponent)  
+// }
 // {
 //   path: 'lessons/:courseId',
 //   loadComponent: () =>

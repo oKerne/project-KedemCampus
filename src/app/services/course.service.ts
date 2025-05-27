@@ -1,6 +1,6 @@
 
 import { HttpClient, HttpEvent, HttpHandler, HttpHeaders, HttpRequest } from "@angular/common/http";
-import { inject, Injectable } from "@angular/core";
+import {  Injectable } from "@angular/core";
 import { catchError, Observable, throwError } from "rxjs";
 import { AuthService } from "./auth.service"; 
 import { Course } from "../models/course.model";
@@ -11,30 +11,6 @@ import { Lesson } from "../models/lesson.model";
 export class CourseService {
   private readonly apiUrl = 'http://localhost:3000/api/courses';
   constructor(private http: HttpClient, private authService: AuthService) {}
-// intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-//   const token = this.authService.getToken();
-//   if (token) {
-//     const authReq = req.clone({
-//       headers: req.headers.set('Authorization', `Bearer ${token}`)
-//     });
-//     return next.handle(authReq);
-//   }
-//   return next.handle(req);
-//  }
-
-
-  intercept(req: HttpRequest<any>, next: HttpHandler) {
-    const token = localStorage.getItem('token');
-    if (token) {
-      const cloned = req.clone({
-        headers: req.headers.set('Authorization', `Bearer ${token}`)
-      });
-      return next.handle(cloned);
-    }
-    return next.handle(req);
-  }
-
-
 
  private getHeaders(): HttpHeaders {
   const token = this.authService.getToken();
@@ -53,14 +29,16 @@ export class CourseService {
     return throwError(() => new Error('Something went wrong. Please try again later.'));
   }
 
-  getAllCourses(): Observable<any[]> {
-    return this.http.get<any[]>(this.apiUrl)
-      .pipe(catchError(this.handleError));
-  }
+ 
   getCourses(): Observable<Course[]> {
     return this.http
       .get<Course[]>(this.apiUrl, { headers: this.getHeaders() })
-      .pipe(catchError(this.handleError));
+      .pipe(
+        catchError(error => {
+          console.error('Error fetching courses:', error);
+          return throwError(() => new Error('שגיאה בטעינת הקורסים. אנא נסה שוב מאוחר יותר.'));
+        })
+      );
   }
  getCourseById(id: number): Observable<Course> {
     return this.http
@@ -77,6 +55,17 @@ getCoursesByUserId(userId: number): Observable<Course[]> {
         return throwError(() => new Error('שגיאה בטעינת הקורסים. אנא נסה שוב מאוחר יותר.'));
       })
     );
+}
+getEnrolledCourses(studentId: number): Observable<{ id: number, title: string, description: string, teacherId: number }[]> {
+  if (!studentId || studentId <= 0) {
+    console.error('Invalid student ID:', studentId);
+    return throwError(() => new Error('Invalid student ID'));
+  }
+
+  return this.http.get<{ id: number, title: string, description: string, teacherId: number }[]>(
+    `${this.apiUrl}/student/${studentId}`,
+    { headers: this.getHeaders() }
+  );
 }
 
 
@@ -104,32 +93,44 @@ getCoursesByUserId(userId: number): Observable<Course[]> {
       );
   }
    // למורים בלבד
-    private getTeacherId(): number {
+  private getTeacherId(): number {
     const teacherId = localStorage.getItem('userId');
     if (!teacherId) {
       throw new Error('Teacher ID is not found in localStorage');
     }
-    return parseInt(teacherId, 10); 
-   }
-
+    return parseInt(teacherId, 10); // המרה למספר שלם
+  }
    getCourseDetails(courseId: number): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/${courseId}/lessons`, { headers: this.getHeaders() });
   }
+// getCoursesByTeacher(): Observable<Course[]> {
+//   const teacherId = this.authService.userId();
+//   if (!teacherId) {
+//     throw new Error('Teacher ID is missing');
+//   }
+//   return this.http.get<Course[]>(`${this.apiUrl}/byTeacher/${teacherId}`, { headers: this.getHeaders() });
+// }
+
 getCoursesByTeacher(): Observable<Course[]> {
   const teacherId = this.authService.userId();
+  console.log('teacherId in getCoursesByTeacher:');
+  console.log('teacherId in getCoursesByTeacher:', teacherId);
   if (!teacherId) {
     throw new Error('Teacher ID is missing');
   }
+  
   return this.http.get<Course[]>(`${this.apiUrl}/byTeacher/${teacherId}`, { headers: this.getHeaders() });
 }
 
+  createCourse(course: Omit<Course, 'teacherId'>): Observable<Course> {
+    const teacherId = this.getTeacherId(); 
+    console.log('teacherId in createCourse:', teacherId);
+    const courseWithTeacherId = { ...course, teacherId };
 
-createCourse(course: Course): Observable<Course> {
-  return this.http.post<Course>(this.apiUrl, course, {
-    headers: this.getHeaders()
-  }).pipe(catchError(this.handleError));
-}
-
+    return this.http
+      .post<Course>(this.apiUrl, courseWithTeacherId, { headers: this.getHeaders() })
+      .pipe(catchError(this.handleError));
+  }
 
   updateCourse(courseId: number, course: Omit<Course, 'teacherId'>): Observable<Course> {
   const teacherId = this.authService.userId();

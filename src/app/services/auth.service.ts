@@ -58,7 +58,7 @@ login(email: string, password: string) {
       if (typeof window !== 'undefined') {
         localStorage.setItem('token', token);
         localStorage.setItem('userId', userId);
-        // localStorage.setItem('userRole', role);
+        localStorage.setItem('userRole', role);
       }
       this.token.set(token);
 
