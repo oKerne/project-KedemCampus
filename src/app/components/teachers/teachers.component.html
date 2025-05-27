@@ -1,0 +1,416 @@
+<!-- 
+<div class="teacher-dashboard" dir="rtl">
+  <header class="dashboard-header">
+    <h1><i class="fas fa-chalkboard-teacher"></i> לוח בקרה למורים</h1>
+    <p>ניהול הקורסים והשיעורים שלך במקום אחד</p>
+  </header>
+
+  <-- Loading State -->
+  <!-- <div *ngIf="isLoading" class="loading-overlay">
+    <div class="spinner"></div>
+    <p>טוען נתונים...</p>
+  </div> -->
+
+  <!-- Error Message -->
+  <!-- <div *ngIf="error" class="alert alert-error">
+    <i class="fas fa-exclamation-circle"></i>
+    {{ error }}
+  </div> -->
+
+  <!-- Stats Cards -->
+  <!-- <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-icon">
+        <i class="fas fa-book"></i>
+      </div>
+      <div class="stat-info">
+        <h3>{{ courses.length }}</h3>
+        <p>קורסים פעילים</p>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon">
+        <i class="fas fa-play-circle"></i>
+      </div>
+      <div class="stat-info">
+        <h3>{{ getTotalLessons() }}</h3>
+        <p>סה"כ שיעורים</p>
+      </div>
+    </div>
+  </div> -->
+
+  <!-- Courses List -->
+  <!-- <div class="courses-section">
+    <div class="section-header">
+      <h2>הקורסים שלי</h2>
+      <button class="btn btn-primary" routerLink="/courses/new">
+        <i class="fas fa-plus"></i> קורס חדש
+      </button>
+    </div>
+
+    <div *ngIf="!courses.length && !isLoading" class="empty-state">
+      <i class="fas fa-book-open"></i>
+      <h3>אין לך קורסים עדיין</h3>
+      <p>התחל על ידי יצירת קורס חדש</p>
+      <button class="btn btn-primary" routerLink="/courses/new">
+        <i class="fas fa-plus"></i> צור קורס חדש
+      </button>
+    </div>
+
+    <div class="courses-grid">
+      <div *ngFor="let course of courses" 
+           class="course-card" 
+           [class.expanded]="course.isExpanded">
+        
+        <div class="course-header" (click)="toggleCourseExpansion(course)">
+          <div class="course-cover" [style.backgroundImage]="'url(' + (course.imageUrl || 'assets/course-default.jpg') + ')'">
+            <span class="lessons-count">
+              <i class="fas fa-play"></i> {{ course.lessons?.length || 0 }}
+            </span>
+          </div>
+          <div class="course-info">
+            <h3>{{ course.title }}</h3>
+            <div class="course-meta">
+              <span class="students-count">
+                <i class="fas fa-users"></i> {{ course.students || 0 }} תלמידים
+              </span>
+              <span class="status" [class.published]="course.isPublished">
+                {{ course.isPublished ? 'פורסם' : 'טיוטה' }}
+              </span>
+            </div>
+          </div>
+          <div class="course-actions">
+            <button class="btn-icon" (click)="editCourse(course.id); $event.stopPropagation()">
+              <i class="fas fa-edit"></i>
+            </button>
+            <button class="btn-icon" (click)="deleteCourse(course.id); $event.stopPropagation()">
+              <i class="fas fa-trash"></i>
+            </button>
+            <button class="btn-icon" (click)="toggleCourseExpansion(course); $event.stopPropagation()">
+              <i class="fas" [class.fa-chevron-down]="!course.isExpanded" [class.fa-chevron-up]="course.isExpanded"></i>
+            </button>
+          </div>
+        </div>
+
+        <- Lessons Section -->
+        <!-- <div *ngIf="course.isExpanded" class="lessons-section">
+          <div class="lessons-header">
+            <h4>שיעורים</h4>
+            <button class="btn btn-sm" (click)="addNewLesson(course.id)">
+              <i class="fas fa-plus"></i> הוסף שיעור חדש
+            </button>
+          </div>
+
+          <div *ngIf="course.isLoading" class="loading-lessons">
+            <i class="fas fa-spinner fa-spin"></i> טוען שיעורים...
+          </div>
+
+          <div *ngIf="course.error" class="error-message">
+            <i class="fas fa-exclamation-circle"></i> {{ course.error }}
+          </div>
+
+          <div *ngIf="!course.isLoading && !course.error && course.lessons?.length" class="lessons-list">
+            <div *ngFor="let lesson of course.lessons" class="lesson-item">
+              <div class="lesson-info">
+                <h5>{{ lesson.title }}</h5>
+                <p class="lesson-duration" *ngIf="lesson.duration">
+                  <i class="far fa-clock"></i> {{ lesson.duration }} דקות
+                </p>   -->
+                <!-- <div class="lesson-actions">
+                  <button class="btn-icon" (click)="editLesson(courses)"> -->
+                    <!-- <i class="fas fa-edit"></i>
+                  </button>  -->
+                  <!-- <button class="btn-icon" (click)="deleteLesson(course.id, lesson.id)">
+                    <i class="fas fa-trash"></i>
+                  </button>
+                  <button class="btn-icon" (click)="previewLesson(lesson)">
+                    <i class="fas fa-eye"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div *ngIf="!course.isLoading && !course.error && !course.lessons?.length" class="no-lessons">
+            <p>אין שיעורים בקורס זה עדיין</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> -->
+<!-- <div *ngIf="!showNoCoursesMessage">
+  <h2>ניהול שיעורים</h2>
+
+  <-- טופס להוספת שיעור חדש -->
+  <!-- <div>
+    <input [(ngModel)]="newLesson.title" placeholder="כותרת שיעור" />
+    <textarea [(ngModel)]="newLesson.content" placeholder="תוכן שיעור"></textarea>
+    <button (click)="addLesson()">הוסף שיעור</button>
+  </div>
+
+  <hr />
+
+  <-- רשימת שיעורים -->
+  <!-- <div *ngFor="let lesson of lessons">
+    <div *ngIf="editLessonId !== lesson.id">
+      <h3>{{ lesson.title }}</h3>
+      <p>{{ lesson.content }}</p>
+      <button (click)="startEdit(lesson)">ערוך</button>
+      <button (click)="deleteLesson(lesson.courseId)">מחק</button>
+    </div>
+
+    <div *ngIf="editLessonId === lesson.id">
+      <input [(ngModel)]="editLesson.title" placeholder="כותרת חדשה" />
+      <textarea [(ngModel)]="editLesson.content" placeholder="תוכן חדש"></textarea>
+      <button (click)="saveEdit()">שמור</button>
+      <button (click)="cancelEdit()">ביטול</button>
+    </div>
+  </div>
+</div>  -->
+
+
+<!-- <div class="teacher-container">
+  <h2>ניהול מורה וקורסים</h2>
+
+  <div *ngIf="teacherName" class="teacher-info">
+    <p><strong>שם המורה:</strong> {{ teacherName }}</p>
+  </div>
+
+  <div *ngIf="showNoCoursesMessage" class="no-courses">
+    <p>לא נמצאו קורסים למורה זו.</p>
+    <p>הזן קורס חדש כדי להתחיל.</p>
+  </div> -->
+
+  <!-- טופס להוספת קורס חדש -->
+  <!-- <div class="add-course-form">
+    <h3>הוסף קורס חדש</h3>
+    <input [(ngModel)]="newCourse.title" placeholder="שם הקורס" />
+    <input [(ngModel)]="newCourse.teacher" placeholder="שם המורה" />
+     <input [(ngModel)]="newLesson.imageUrl" placeholder="קישור לתמונה (imageUrl)" /> -->
+    <!-- <input [(ngModel)]="newCourse.episodes" placeholder="מספר שיעורים" type="number" />
+    <button (click)="addCourse()">הוסף קורס</button>
+  </div>
+<div *ngFor="let course of courses">
+  <h2>{{ course.title }}</h2>
+  <p>מורה: {{ course.teacher }}</p>
+  < <img *ngIf="course.imageUrl" [src]="course.imageUrl" alt="תמונת קורס" width="200" /> -->
+  <!-- <button (click)="selectCourse(course)">בחר</button>
+</div>   -->
+
+<!-- תצוגת הקורסים -->
+<!-- <div class="course-list">
+  <div *ngFor="let course of courses" class="course-card">
+    <img *ngIf="course.imageUrl" [src]="course.imageUrl" alt="{{ course.title }}" />
+    <div class="course-info">
+      <h3>{{ course.title }}</h3>
+      <p>מורה: {{ course.teacher }}</p>
+      <button (click)="selectCourse(course)">בחר קורס</button>
+    </div>
+  </div>
+</div>
+
+</div> -->
+<!-- <div class="container">
+
+  <h2>קורסים</h2>
+
+  <div>
+  @if(showNoCoursesMessage()) {
+    <p class="info-msg">{{ noCoursesMessage() }}</p>
+  } @else {
+    <ul class="courses-list">
+       @for (let course of courses(); track course.id) {
+        <li class="{{ course.id === selectedCourse()?.id ? 'selected' : '' }}" (click)="selectCourse(course)">
+          {{ course.title }} - מורה: {{ course.teacher }}
+        </li>
+      } 
+    </ul>
+  }
+
+  <h3>שיעורים בקורס: {{ selectedCourse()?.title || 'לא נבחר קורס' }}</h3>
+
+  @if(errorMessage()) {
+    <div class="error-msg">{{ errorMessage() }}</div>
+  }
+
+  @if(lessons().length === 0) {
+    <div class="no-lessons-msg">אין שיעורים להצגה</div>
+  } @else {
+    <div class="lessons-list">
+       @for (let lesson of lessons()) {
+        <div class="lesson-card">
+
+          <h4>{{ lesson.title }}</h4>
+          <p>{{ lesson.content }}</p>
+
+          <div class="actions">
+            <button (click)="startEdit(lesson)" class="btn edit">
+              <span class="material-icons">edit</span> ערוך
+            </button>
+            <button (click)="deleteLesson(lesson.id)" class="btn delete">
+              <span class="material-icons">delete</span> מחק
+            </button>
+          </div>
+
+          @if(editLessonId() === lesson.id) {
+            <div class="edit-form">
+              <input [(ngModel)]="editLesson().title" placeholder="כותרת" />
+              <textarea [(ngModel)]="editLesson().content" placeholder="תוכן"></textarea>
+              <div class="actions">
+                <button (click)="saveEdit()" class="btn save">
+                  <span class="material-icons">save</span> שמור
+                </button>
+                <button (click)="cancelEdit()" class="btn cancel">
+                  <span class="material-icons">cancel</span> ביטול
+                </button>
+              </div>
+            </div>
+          }
+
+        </div>
+      } 
+    </div>
+  }
+
+  @if(teacherName() && selectedCourse()) {
+    <div class="new-lesson-card">
+      <h3><span class="material-icons">add_circle</span> הוסף שיעור חדש</h3>
+      <input [(ngModel)]="newLesson().title" placeholder="כותרת שיעור" />
+      <textarea [(ngModel)]="newLesson().content" placeholder="תוכן שיעור"></textarea>
+      <button (click)="addLesson()" class="btn add">הוסף שיעור</button>
+    </div>
+  } @else {
+    <div class="info-msg">יש להגדיר מורה וקורס לפני הוספת שיעור</div>
+  }
+</div> -->
+<div class="teacher-dashboard" dir="rtl">
+  <header class="dashboard-header">
+    <h1><i class="fas fa-chalkboard-teacher"></i> לוח בקרה למורים</h1>
+    <p>ניהול הקורסים והשיעורים שלך במקום אחד</p>
+  </header>
+
+  <!-- Loading State -->
+  <div *ngIf="isLoading()" class="loading-overlay">
+    <div class="spinner"></div>
+    <p>טוען נתונים...</p>
+  </div>
+
+  <!-- Error Message -->
+  <!-- <div *ngIf="error" class="alert alert-error">
+    <i class="fas fa-exclamation-circle"></i>
+    {{ error }}
+  </div> -->
+
+  <!-- Stats Cards -->
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-icon">
+        <i class="fas fa-book"></i>
+      </div>
+      <div class="stat-info">
+        <h3>{{ courses().length }}</h3>
+        <p>קורסים פעילים</p>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon">
+        <i class="fas fa-play-circle"></i>
+      </div>
+      <div class="stat-info">
+        <h3>{{ courses() }}</h3>
+        <p>סה"כ שיעורים</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Courses List -->
+  <div class="courses-section">
+    <div class="section-header">
+      <h2>הקורסים שלי</h2>
+      <button mat-raised-button color="primary" routerLink="/courses/new">
+        <mat-icon>add</mat-icon> קורס חדש
+      </button>
+    </div>
+
+    <div *ngIf="!courses().length" class="empty-state">
+      <i class="fas fa-book-open"></i>
+      <h3>אין לך קורסים עדיין</h3>
+      <p>התחל על ידי יצירת קורס חדש</p>
+      <button mat-raised-button color="primary" routerLink="/courses/new">
+        <mat-icon>add</mat-icon> צור קורס חדש
+      </button>
+    </div>
+
+<div class="courses-container" [ngClass]="{ 'grid': isGridView(), 'list': !isGridView() }">
+  <div class="course-card" *ngFor="let course of courses()" (click)="selectCourse(course)">
+    <img [src]="course.imageUrl || 'images/Software.jpg'" alt="תמונה">
+
+    <div class="info">
+      <h3>{{ course.title }}</h3>
+      <p>{{ course.teacher }}</p>
+
+      <div class="actions">
+        <button mat-icon-button color="primary" (click)="selectCourse(course); $event.stopPropagation()">
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button mat-icon-button color="warn" (click)="deleteCourse(course.id); $event.stopPropagation()">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- פרטי קורס נבחר -->
+<div class="selected-course" *ngIf="selectedCourse()">
+  <h2>ניהול קורס: {{ selectedCourse()?.title }}</h2>
+
+  <form (ngSubmit)="addLesson()">
+    <mat-form-field appearance="outline">
+      <mat-label>כותרת שיעור</mat-label>
+      <input matInput [(ngModel)]="newLesson().title" name="title" required>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>תוכן</mat-label>
+      <textarea matInput [(ngModel)]="newLesson().content" name="content" required></textarea>
+    </mat-form-field>
+
+    <button mat-raised-button color="primary" type="submit">הוסף שיעור</button>
+  </form>
+
+  <div class="lessons-list" *ngIf="lessons().length > 0">
+    <h3>שיעורים:</h3>
+    <div *ngFor="let lesson of lessons()" class="lesson-item">
+      <span>{{ lesson.title }}</span>
+      <button mat-icon-button color="warn" (click)="deleteLesson(lesson.id!)">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- הוספת קורס -->
+<div class="add-course">
+  <h2>הוספת קורס חדש</h2>
+
+  <form (ngSubmit)="addCourse()">
+    <mat-form-field appearance="outline">
+      <mat-label>כותרת</mat-label>
+      <input matInput [(ngModel)]="newCourse().title" name="courseTitle" required>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>שם מורה</mat-label>
+      <input matInput [(ngModel)]="newCourse().teacher" name="teacherName" required>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>תמונה</mat-label>
+      <input matInput [(ngModel)]="newCourse().imageUrl" name="imageUrl">
+    </mat-form-field>
+
+    <button mat-raised-button color="accent" type="submit">צור קורס</button>
+  </form>
+</div>

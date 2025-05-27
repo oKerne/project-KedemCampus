@@ -1,0 +1,33 @@
+
+   <div class="login-split">
+    <div class="login-form">
+      <img width="120" height="120" src="images/campuslogo.png" class="logo">
+      <h2>התחברות</h2>
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <label for="email">אימייל</label>
+        <input id="email" type="email" formControlName="email" />
+        <div *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched">
+          אימייל לא תקין
+        </div>
+  
+        <label for="password">סיסמה</label>
+        <input id="password" type="password" formControlName="password" />
+        <div *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">          סיסמה חייבת להכיל לפחות 6 תווים
+        </div>
+        
+        <button type="submit" >התחברות</button>
+      </form>
+      <div class="login-link">
+        <a routerLink="/register">הרשמה</a>
+      </div>
+    </div>  
+    
+    <div class="split-image">
+      <img src="images/kedem.png" alt="תמונה">
+      <div class="overlay">
+        <h1>קדם קמפוס - למידה אונליין לציבור החרדי</h1>
+        <p>קורסים וכיתות למידה וירטואליות לציבור החרדי באוירה תורנית ושמורה</p>
+      </div>
+    </div>
+  
+  </div>

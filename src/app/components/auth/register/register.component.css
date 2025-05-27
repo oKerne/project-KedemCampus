@@ -1,0 +1,134 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f9fafb;
+    direction: rtl;
+  }
+  
+  .register-split {
+    display: flex;
+    height: 100vh;
+  }
+  
+  .register-form {
+    flex: 1;
+    padding: 40px;
+    background-color: #ffffff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    display: flex;
+   flex-direction: column;
+   justify-content: center;
+   align-items: center;
+  }
+  
+  h2 {
+    font-size: 28px;
+    color: #333;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  label {
+    font-size: 16px;
+    color: #555;
+    margin-bottom: 8px;
+    display: block;
+  }
+  
+  input {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 16px;
+  }
+  
+  button {
+    width: 110%;
+    padding: 14px;
+    background-color: #00cfe8;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  button:disabled {
+    background-color: #cccccc;
+  }
+  
+  button:hover:not(:disabled) {
+    background-color: #00b0c8;
+  }
+  
+  form .ng-invalid.ng-touched {
+    color: red;
+    font-size: 13px;
+  }
+  
+  .login-link {
+    text-align: center;
+    margin-top: 20px;
+  }
+  
+  .login-link a {
+    color: #00cfe8;
+    font-size: 16px;
+  }
+  
+  .login-link a:hover {
+    text-decoration: underline;
+  
+  }
+  input:focus {
+    border-color: #00cfe8;
+    outline: none;
+  }
+  
+  .split-image {
+    flex: 1;
+    position: relative;
+  }
+
+  .split-image::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-color: rgba(49, 47, 47, 0.4); 
+    z-index: 1;
+  }
+  
+  .split-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 8px;
+    z-index: 0;
+  }
+  
+ 
+  .overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: white;
+    z-index: 2;
+  }
+  
+  .overlay h1 {
+    font-size: 32px;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+  
+  .overlay p {
+    font-size: 18px;
+    margin-bottom: 30px;
+  }
