@@ -1,0 +1,133 @@
+
+
+  <!-- <-- כפתור הוספת קורס --> 
+<button class="floating-add-btn" (click)="addCourseVisibleToggle()" title="הוסף קורס">
+  +
+</button>
+
+<!-- טופס פופ-אפ להוספת קורס -->
+<div *ngIf="addCourseVisible" class="slide-up-modal">
+  <h3>הוסף קורס חדש</h3>
+  <form (ngSubmit)="addCourse()">
+    <label>כותרת קורס:
+      <input [(ngModel)]="courseForm().title" name="title" required />
+    </label>
+    <label>מורה:
+      <input [(ngModel)]="courseForm().teacher" name="teacher" required />
+    </label>
+    <label>תיאור:
+      <textarea [(ngModel)]="courseForm().description" name="description"></textarea>
+    </label>
+    <label>כתובת תמונה:
+      <input [(ngModel)]="courseForm().imageUrl" name="imageUrl" />
+    </label>
+    <label>מספר פרקים:
+      <input type="number" [(ngModel)]="courseForm().episodes" name="episodes" />
+    </label>
+
+    <button type="submit" class="icon-btn"><i class="fas fa-save"></i> שמור</button>
+    <button type="button" class="icon-btn" (click)="addCourseVisibleToggle()"><i class="fas fa-times"></i> ביטול</button>
+  </form>
+</div>
+
+<!-- רשימת הקורסים -->
+<div class="teacher-dashboard" dir="rtl">
+  <div *ngFor="let course of courses()" class="course-item">
+    <div class="course-image-container">
+      <img class="course-image" [src]="course.imageUrl || 'images/אנגולר 19..jpg'" alt="{{ course.title }}">
+      <div class="course-actions">
+        <button class="icon-btn" (click)="toggleEdit(course.id)" title="ערוך קורס">
+          <i class="fas fa-pen"></i>
+        </button>
+        <button class="icon-btn" (click)="toggleLessons(course.id)" title="הצג/הסתר שיעורים">
+          <i class="fas" [ngClass]="isLessonsVisible(course.id) ? 'fa-eye-slash' : 'fa-eye'"></i>
+        </button>
+        <button class="icon-btn" (click)="deleteCourse(course.id)" title="מחק קורס">
+          <i class="fas fa-trash-alt"></i>
+        </button>
+      </div>
+    </div>
+
+    <h3 class="course-title">{{ course.title }}</h3>
+    <p class="course-description">{{ course.description }}</p>
+
+    <!-- טופס עריכה בתוך הקורס -->
+    <div *ngIf="isEditVisible(course.id)" class="course-form">
+      <form (ngSubmit)="saveCourse()">
+        <label>כותרת קורס:
+          <input [(ngModel)]="courseForm().title" name="title" required />
+        </label>
+        <label>מורה:
+          <input [(ngModel)]="courseForm().teacher" name="teacher" required />
+        </label>
+        <label>תיאור:
+          <textarea [(ngModel)]="courseForm().description" name="description"></textarea>
+        </label>
+        <label>כתובת תמונה:
+          <input [(ngModel)]="courseForm().imageUrl" name="imageUrl" />
+        </label>
+        <label>מספר פרקים:
+          <input type="number" [(ngModel)]="courseForm().episodes" name="episodes" />
+        </label>
+
+        <button class="icon-btn" type="submit" title="שמור קורס">
+          <i class="fas fa-save"></i>
+        </button>
+        <button class="icon-btn" type="button" (click)="cancelEditCourse()" title="ביטול">
+          <i class="fas fa-times"></i>
+        </button>
+      </form>
+    </div>
+
+    <!-- רשימת שיעורים -->
+    <div *ngIf="isLessonsVisible(course.id)" class="lessons-list">
+      <h3>שיעורים</h3>
+      <ul>
+        <li *ngFor="let lesson of getLessonsForCourse(course.id)">
+          <div class="lesson-info">
+            <strong>{{ lesson.title }}</strong> - {{ lesson.content }}
+          </div>
+          <div class="lesson-actions">
+            <button class="icon-btn" (click)="editLesson(lesson)" title="ערוך שיעור">
+              <i class="fas fa-pen"></i>
+            </button>
+            <button class="icon-btn" (click)="deleteLesson(lesson.id!)" title="מחק שיעור">
+              <i class="fas fa-trash-alt"></i>
+            </button>
+          </div>
+
+          <!-- טופס עריכת שיעור -->
+          <div *ngIf="lesson.id === editingLessonId" class="edit-lesson-form">
+            <form (ngSubmit)="saveLesson(course.id)">
+              <label>כותרת שיעור:
+                <input [(ngModel)]="lessonForm().title" name="lessonTitle" required />
+              </label>
+              <label>תוכן שיעור:
+                <textarea [(ngModel)]="lessonForm().content" name="lessonContent" required></textarea>
+              </label>
+              <button class="icon-btn" type="submit"><i class="fas fa-save"></i></button>
+              <button class="icon-btn" type="button" (click)="cancelEditLesson()"><i class="fas fa-times"></i></button>
+            </form>
+          </div>
+        </li>
+      </ul>
+
+      <!-- הוספת שיעור -->
+      <button class="icon-btn" (click)="showLessonFormForCourse(course.id)" title="הוסף שיעור">
+        <i class="fas" [ngClass]="isLessonFormVisible(course.id) ? 'fa-times' : 'fa-plus'"></i>
+      </button>
+
+      <div *ngIf="isLessonFormVisible(course.id)" class="add-lesson-form">
+        <form (ngSubmit)="saveLesson(course.id)">
+          <label>כותרת שיעור:
+            <input [(ngModel)]="lessonForm().title" name="newLessonTitle" required />
+          </label>
+          <label>תוכן שיעור:
+            <textarea [(ngModel)]="lessonForm().content" name="newLessonContent" required></textarea>
+          </label>
+          <button class="icon-btn" type="submit"><i class="fas fa-plus"></i></button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

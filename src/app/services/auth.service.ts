@@ -26,7 +26,7 @@ export class AuthService {
   userName = computed(() => this.currentUser()?.name || null);
   userId = computed(() => this.currentUser()?.id || null);
 
-  private apiUrl = 'http://localhost:3000/api/auth';
+  private apiUrl = '/api/auth';
 
   constructor(private http: HttpClient, private router: Router) {
     if (typeof window !== 'undefined') {
@@ -68,28 +68,8 @@ login(email: string, password: string) {
   );
 }
 
-//   login(email: string, password: string) {
-//     return this.http.post<{ token: string; user: User }>(
-//       `${this.apiUrl}/login`,
-//       { email, password }
-//     ).pipe(
-//      tap(({ token, user }) => {
-//       if (typeof window !== 'undefined') {
-//         localStorage.setItem('token', token);
-//         localStorage.setItem('userId', user.id.toString());
-//          localStorage.setItem('userName', user.name);
-//         //  localStorage.setItem('userRole', 'teacher');
-
-//         localStorage.setItem('userInitial', user.name.charAt(0).toUpperCase());
-//       }
-//       this.token.set(token);
-//       this.currentUser.set(user);  // קובע ישירות את המשתמש שהתקבל
-//     })
-//   );
-// }
-
 loadUserDetails(userId: string) {
-  return this.http.get<User>(`http://localhost:3000/api/users/${userId}`, this.getAuthHeaders())
+  return this.http.get<User>(`/api/users/${userId}`, this.getAuthHeaders())
     .pipe(
       tap(user => {
         this.currentUser.set(user);
@@ -111,5 +91,5 @@ loadUserDetails(userId: string) {
   getToken() {
     return this.token();
   }
-  
+
 }

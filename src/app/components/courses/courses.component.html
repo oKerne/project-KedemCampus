@@ -1,0 +1,35 @@
+<div class="filters">
+  <button mat-icon-button (click)="toggleView()" aria-label="שנה תצוגה">
+    <mat-icon>{{ isGridView() ? 'view_list' : 'grid_view' }}</mat-icon>
+  </button>
+</div>
+
+<div class="courses-container" [ngClass]="{ 'grid': isGridView(), 'list': !isGridView() }">
+  <div class="course-card" *ngFor="let course of courses()" (click)="openCourse(course.id)">
+    <div class="image-wrapper">
+      <img [src]="course.imageUrl || 'images/QA.jpg'" alt="תמונה">
+      <button class="tag join-btn"
+              *ngIf="!course.accessGranted"
+              (click)="enroll(course.id); $event.stopPropagation()">
+        להצטרפות
+      </button>
+      <button class="tag leave-btn"
+              *ngIf="course.accessGranted"
+              (click)="unenroll(course.id); $event.stopPropagation()">
+        ליציאה
+      </button>
+    </div>
+
+    <div class="info">
+      <div class="episodes">{{ course.episodes }} פרקים</div>
+      <h3>{{ course.title }}</h3>
+      <div class="teacher">
+        <img src="images/campuslogo.png" alt="אייקון">
+        <span>{{ course.teacher }}</span>
+      </div>
+      <p class="access" *ngIf="course.accessGranted">הצפייה פתוחה</p>
+    </div>
+    
+  </div>
+</div> 
+

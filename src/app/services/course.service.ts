@@ -9,7 +9,7 @@ import { Lesson } from "../models/lesson.model";
 
 @Injectable({ providedIn: 'root' })
 export class CourseService {
-  private readonly apiUrl = 'http://localhost:3000/api/courses';
+  private readonly apiUrl = '/api/courses';
   constructor(private http: HttpClient, private authService: AuthService) {}
 
  private getHeaders(): HttpHeaders {
@@ -122,16 +122,19 @@ getCoursesByTeacher(): Observable<Course[]> {
   return this.http.get<Course[]>(`${this.apiUrl}/byTeacher/${teacherId}`, { headers: this.getHeaders() });
 }
 
-  createCourse(course: Omit<Course, 'teacherId'>): Observable<Course> {
-    const teacherId = this.getTeacherId(); 
-    console.log('teacherId in createCourse:', teacherId);
-    const courseWithTeacherId = { ...course, teacherId };
+  // createCourse(course: Omit<Course, 'teacherId'>): Observable<Course> {
+  //   const teacherId = this.getTeacherId(); 
+  //   console.log('teacherId in createCourse:', teacherId);
+  //   const courseWithTeacherId = { ...course, teacherId };
 
-    return this.http
-      .post<Course>(this.apiUrl, courseWithTeacherId, { headers: this.getHeaders() })
-      .pipe(catchError(this.handleError));
+  //   return this.http
+  //     .post<Course>(this.apiUrl, courseWithTeacherId, { headers: this.getHeaders() })
+  //     .pipe(catchError(this.handleError));
+  // }
+ createCourse(course: Omit<Course, 'teacherId'>): Observable<Course> {
+    // const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this.http.post<Course>(this.apiUrl, course, { headers: this.getHeaders() });
   }
-
   updateCourse(courseId: number, course: Omit<Course, 'teacherId'>): Observable<Course> {
   const teacherId = this.authService.userId();
   const courseWithTeacherId = { ...course, teacherId };
@@ -153,11 +156,14 @@ getCoursesByTeacher(): Observable<Course[]> {
       .pipe(catchError(this.handleError));
   }
 
-  updateLesson(courseId: number, lessonId: number, lesson: Lesson): Observable<Lesson> {
-    return this.http
-      .put<Lesson>(`${this.apiUrl}/${courseId}/lessons/${lessonId}`, lesson, { headers: this.getHeaders() })
-      .pipe(catchError(this.handleError));
-  }
+   updateLesson(courseId: number, lessonId: number, updates: Lesson): Observable<any> {
+  return this.http.put(`/api/courses/${courseId}/lessons/${lessonId}`, updates, {
+    headers: this.getHeaders()
+  }).pipe(
+    catchError(this.handleError)
+  );
+}
+
 
   deleteLesson(courseId: number, lessonId: number): Observable<any> {
     return this.http

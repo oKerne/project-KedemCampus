@@ -2,16 +2,20 @@ import { bootstrapApplication } from '@angular/platform-browser';
 import { AppComponent } from './app/app.component';
 import { provideRouter } from '@angular/router';
 import { routes } from './app/app.routes';
-import { provideHttpClient, withFetch } from '@angular/common/http';
+import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
 import app from './server';
 import { appConfig } from './app/app.config';
+import { baseUrlInterceptor } from './app/models/AuthInterceptor ';
 
 bootstrapApplication(AppComponent, {
   // ...appConfig,
   providers: [
     ...(appConfig.providers || []),
     provideRouter(routes),
-    provideHttpClient(withFetch())
+    // provideHttpClient(withFetch()),
+    provideHttpClient(
+      withInterceptors([baseUrlInterceptor])
+    )
   ]
 });
 

@@ -10,6 +10,8 @@ import { HeaderComponent } from './pages/header/header.component';
     RouterModule,
     HeaderComponent,
     FooterComponent,
+    
+    
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'

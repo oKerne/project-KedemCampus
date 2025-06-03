@@ -1,0 +1,42 @@
+   @if (errorMessage()) {
+      <div class="error-message">
+        {{ errorMessage() }}
+      </div>
+    }
+<div *ngIf="selectedCourse() as selected" class="course-details-container">
+  @if (selected) {
+    <div class="course-header">
+      <img [src]="selected.imageUrl || 'images/Software.jpg'" alt="תמונה" class="course-img" />
+
+      <div class="course-info">
+        <h2>{{ selected.title }}</h2>
+        <p>{{ selected.description }}</p>
+
+        <div class="teacher-info">
+          <img src="images/campuslogo.png" alt="מורה" class="teacher-icon" />
+          <span>{{ selected.teacherName || 'טליה שוורץ' }}</span>
+        </div>
+
+        <p class="lesson-count">מספר פרקים: {{ selected.lessons?.length || 0 }}</p>
+      </div>
+    </div>
+
+<div class="lessons-section">
+  <h3>שיעורים</h3>
+
+  @if (selectedCourse()?.lessons?.length > 0) {
+    @for (lesson of selectedCourse().lessons; track lesson.id) {
+      <div class="lesson-card">
+        <h4>{{ lesson.title }}</h4>
+        <p>{{ lesson.description }}</p>
+        <span>{{ lesson.content }}</span>
+      </div>
+    }
+  } @else {
+    <p class="no-lessons">אין שיעורים להצגה</p>
+  }
+</div>
+
+  }
+ 
+</div>

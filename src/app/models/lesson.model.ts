@@ -4,4 +4,5 @@ export interface Lesson {
     content: string;
     courseId?: number;
     lesson?:[];
+    
   }

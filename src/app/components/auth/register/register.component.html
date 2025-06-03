@@ -1,0 +1,33 @@
+<div class="register-split">
+    <div class="register-form">
+        <img width="120" height="120" src="images/campuslogo.png" class="logo" >
+      <h2>הרשמה</h2>
+      <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+        
+        <label for="name">שם פרטי</label>
+        <input type="text" id="name" formControlName="name" placeholder="שם פרטי" />
+        <label for="email">אימייל</label>
+        <input type="email" id="email" formControlName="email" placeholder="אימייל" />
+  
+        <label for="password">סיסמה</label>
+        <input type="password" id="password" formControlName="password" placeholder="סיסמה" />
+  
+        <label for="password">תפקיד</label>
+        <input type="text" id="role" formControlName="role" placeholder="תפקיד" />
+  
+        <button type="submit" [disabled]="!isFormValid">הרשמה</button>
+      </form>
+      <div class="login-link">
+        <a routerLink="/login">התחברו</a>
+      </div>
+    </div>
+  
+    <div class="split-image">
+      <div class="overlay">
+        <h1>קדם קמפוס - למידה אונליין לציבור החרדי</h1>
+        <p>קורסים וכיתות למידה וירטואליות לציבור החרדי באוירה תורנית ושמורה</p>
+      </div>
+      <img src="images/kedem.png" />
+    </div>
+  </div>
+  
