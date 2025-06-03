@@ -10,6 +10,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Direction } from '@angular/cdk/bidi';
 import { CourseService } from '../../services/course.service';
 import { Course } from '../../models/course.model';
+import { AuthService } from '../../services/auth.service';
 
 export interface LessonData {id?: number;title: string;content: string;courseId?: number;}
 
@@ -21,6 +22,8 @@ export interface LessonData {id?: number;title: string;content: string;courseId?
   styleUrls: ['./teachers.component.css'],
 })
 export class TeachersComponent implements OnInit {
+  public isEditMode: 'edit' | null = null;
+
 cancelEditCourse() {
 throw new Error('Method not implemented.');
 }
@@ -28,22 +31,17 @@ throw new Error('Method not implemented.');
 
   private _courseForm = signal<Course>({ id: 0, title: '', teacher: '', description: '', imageUrl: '', episodes: 0 });
   public courseForm = () => this._courseForm();
-
   public addCourseVisible = false;
   public editingCourseId = signal<number | null>(null);
   public visibleLessons = signal<{ [courseId: number]: boolean }>({});
   public lessonFormVisible = signal<{ [courseId: number]: boolean }>({});
-
   private _lessonForm = signal<LessonData>({ title: '', content: '' });
   public lessonForm = () => this._lessonForm();
-
   private lessonsByCourse = signal<{ [courseId: number]: LessonData[] }>({});
-
   public editingLessonId: number | null = null;
 
   constructor(
-    private coursesService: CourseService,
-    private snackBar: MatSnackBar
+    private coursesService: CourseService, private authService:  AuthService,private snackBar: MatSnackBar
   ) {}
 
   public ngOnInit(): void {
@@ -61,6 +59,16 @@ throw new Error('Method not implemented.');
       error: () => this.showMessage('שגיאה בטעינת הקורסים', true)
     });
   }
+  public getCoursesByTeacher(): { [teacher: string]: Course[] } {
+  const grouped: { [teacher: string]: Course[] } = {};
+  for (const course of this.courses()) {
+    if (!grouped[course.teacher]) {
+      grouped[course.teacher] = [];
+    }
+    grouped[course.teacher].push(course);
+  }
+  return grouped;
+}
 
   public addCourseVisibleToggle(): void {
     this.addCourseVisible = !this.addCourseVisible;
@@ -194,11 +202,10 @@ throw new Error('Method not implemented.');
       });
     }
   }
-
-  public editLesson(lesson: LessonData): void {
-    this.editingLessonId = lesson.id ?? null;
-    this._lessonForm.set({ title: lesson.title, content: lesson.content, id: lesson.id });
-  }
+  editLesson(lesson: LessonData): void {
+  this._lessonForm.set(lesson);
+  this.editingLessonId = lesson.id ?? null; 
+}
 
   public cancelEditLesson(): void {
     this.editingLessonId = null;

@@ -34,8 +34,8 @@ export class LessonService {
       .pipe(catchError(this.handleError));
   }
 
-  updateLesson(lessonId: number, updates: Lesson): Observable<Lesson> {
-    return this.http.put<Lesson>(`/api/lessons/${lessonId}`, updates, {headers: this.getHeaders()
+  updateLesson(courseId: number,lessonId: number, updates: Lesson): Observable<Lesson> {
+    return this.http.put<Lesson>(`${this.apiUrl}/${courseId}/lessons/${lessonId}`, updates, {headers: this.getHeaders()
      }).pipe(catchError(this.handleError));
  }
 
