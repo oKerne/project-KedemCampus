@@ -9,7 +9,7 @@ import { Injectable } from "@angular/core";
   providedIn: 'root'
 })
 export class LessonService {
-  private apiUrl = '/api/courses';
+  private apiUrl = 'api/courses';
 
   constructor(private http: HttpClient) {}
 

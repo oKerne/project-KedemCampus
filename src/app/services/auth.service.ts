@@ -26,7 +26,7 @@ export class AuthService {
   userName = computed(() => this.currentUser()?.name || null);
   userId = computed(() => this.currentUser()?.id || null);
 
-  private apiUrl = '/api/auth';
+  private apiUrl = 'api/auth';
 
   constructor(private http: HttpClient, private router: Router) {
     if (typeof window !== 'undefined') {

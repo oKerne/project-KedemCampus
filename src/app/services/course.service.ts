@@ -9,7 +9,7 @@ import { Lesson } from "../models/lesson.model";
 
 @Injectable({ providedIn: 'root' })
 export class CourseService {
-  private readonly apiUrl = '/api/courses';
+  private readonly apiUrl = 'api/courses';
   constructor(private http: HttpClient, private authService: AuthService) {}
 
  private getHeaders(): HttpHeaders {
