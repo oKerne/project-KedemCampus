@@ -1,6 +1,6 @@
 import { HttpInterceptorFn } from '@angular/common/http';
 
-const BASE_URL = 'http://localhost:3000';
+const BASE_URL = 'https://courseonlineserver.onrender.com/';
 
 export const baseUrlInterceptor: HttpInterceptorFn = (req, next) => {
  
