@@ -75,63 +75,7 @@ export class CoursesComponent implements OnInit {
       }
     });
   }
-// loadCourses(): void {
-//   this.courseService.getCourses().subscribe({
-//     next: (serverCourses: Course[]) => {
-//       serverCourses.forEach(course => {
-//         if (!course.imageUrl) course.imageUrl = 'images/QA.png';
-//         if (!course.episodes) course.episodes = 5;
-//         if (!course.teacher) course.teacher = 'טליה שורץ';
-//       });
 
-//       const allCourses = [...serverCourses];
-
-//       if (this.userId()) {
-//         this.courseService.getCoursesByUserId(this.userId()!).subscribe({
-//           next: (myCourses: Course[]) => {
-//             const myCourseIds = myCourses.map(c => c.id);
-
-//             allCourses.forEach(course => {
-//               this.lessonService.getLessons(course.id).subscribe({
-//                 next: lessons => {
-//                   course.lessons = lessons;
-//                   course.accessGranted = myCourseIds.includes(course.id);
-//                   this.courses.set([...allCourses]);
-//                 },
-//                 error: () => {
-//                   course.lessons = [];
-//                   course.accessGranted = myCourseIds.includes(course.id);
-//                   this.courses.set([...allCourses]);
-//                 }
-//               });
-//             });
-//           },
-//           error: err => {
-//             console.error('שגיאה בטעינת קורסים של המשתמש:', err);
-//             this.courses.set(allCourses);
-//           }
-//         });
-//       } else {
-//         allCourses.forEach(course => {
-//           this.lessonService.getLessons(course.id).subscribe({
-//             next: lessons => {
-//               course.lessons = lessons;
-//               this.courses.set([...allCourses]);
-//             },
-//             error: () => {
-//               course.lessons = [];
-//               this.courses.set([...allCourses]);
-//             }
-//           });
-//         });
-//       }
-//     },
-//     error: err => {
-//       console.error('שגיאה בטעינת קורסים:', err);
-//       this.courses.set([...this.courses()]);
-//     }
-//   });
-// }
 
   enroll(courseId: number) {
     if (!this.userId()) {
