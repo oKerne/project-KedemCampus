@@ -12,7 +12,7 @@
 // };
 import { HttpInterceptorFn } from '@angular/common/http';
 
-const BASE_URL = 'https://courseonlineserver.onrender.com/';
+const BASE_URL = 'https://courseonlineserver.onrender.com';
 
 export const baseUrlInterceptor: HttpInterceptorFn = (req, next) => {
   if (!req.url.startsWith('http')) {
