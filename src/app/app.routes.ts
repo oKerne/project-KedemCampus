@@ -28,23 +28,6 @@ export const routes: Routes = [
 
 { path: 'course/:id', component: LessonsComponent },
 { path:  'campus-learning',  component: TeachersComponent },
-// {
-//   path:'lessons/',
-//   loadComponent: () =>
-//     import('./components/lessons/lessons.component').then(m => m.LessonComponent)
-// },
-// { path:'lessons',
-//     loadComponent: () =>
-//       import('./components/teachers/teachers.component').then(m => m.TeachersComponent)
-// },
-// { path:'study-groups',
-//     loadComponent: () =>
-//       import('./components/lessons/lessons.component').then(m => m.LessonsComponent)  
-// }
-// {
-//   path: 'lessons/:courseId',
-//   loadComponent: () =>
-//     import('./components/lessons/lessons.component').then(m => m.LessonComponent)
-// }
+
 
 ]
